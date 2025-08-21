@@ -1,43 +1,53 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
-# Quadratic Model
+# Quadratic Model coefficients
 a, b, c = -0.2, 1.5, 24
 
 def quadratic_weather_model(t):
     return a * (t**2) + b * t + c
 
-hours = list(range(0, 25))  # 0 to 24
+days = np.arange(0, 31, 1)  # 0 to 30 days
 
-# ===== WATERFALL MODE =====
-temps_waterfall = [quadratic_weather_model(h) for h in hours]
-plt.plot(hours, temps_waterfall, 'r-')
-plt.title("Weather Modeling - Waterfall Model")
-plt.xlabel("Time (hours)")
-plt.ylabel("Predicted Temperature (°C)")
+# ===== 1. QUADRATIC MODEL =====
+temps = [quadratic_weather_model(d) for d in days]
+plt.figure(figsize=(7,5))
+plt.plot(days, temps, 'bo-', label="T = -0.2t² + 1.5t + 24")
+plt.title("Weather Modeling (Quadratic Model)")
+plt.xlabel("Days")
+plt.ylabel("Temperature (°C)")
 plt.grid(True)
-plt.savefig("graph_waterfall.png")
+plt.legend()
+plt.savefig("graph_quadratic.png")
 plt.close()
 
-# ===== ITERATIVE MODE =====
-iter_points = [0, 12, 24]
-temps_iterative = [quadratic_weather_model(t) for t in iter_points]
-plt.plot(iter_points, temps_iterative, 'go--')
-plt.title("Weather Modeling - Iterative Model")
-plt.xlabel("Time (hours)")
-plt.ylabel("Predicted Temperature (°C)")
+# ===== 2. ITERATIVE MODEL =====
+plt.figure(figsize=(7,5))
+for i, step in enumerate([10, 20, 30], start=1):
+    subset_days = np.arange(0, step+1, 1)
+    temps_iter = [quadratic_weather_model(d) for d in subset_days]
+    plt.plot(subset_days, temps_iter, label=f"Iteration {i}")
+plt.title("Iterative Model Weather Curve")
+plt.xlabel("Days")
+plt.ylabel("Temperature (°C)")
 plt.grid(True)
+plt.legend()
 plt.savefig("graph_iterative.png")
 plt.close()
 
-# ===== AGILE MODE =====
-agile_points = [0, 6, 12, 18, 24]
-temps_agile = [quadratic_weather_model(t) for t in agile_points]
-plt.plot(agile_points, temps_agile, 'bs-')
-plt.title("Weather Modeling - Agile Model")
-plt.xlabel("Time (hours)")
-plt.ylabel("Predicted Temperature (°C)")
+# ===== 3. AGILE MODEL =====
+plt.figure(figsize=(7,5))
+for i, step in enumerate([7, 14, 21, 30], start=1):
+    subset_days = np.arange(0, step+1, 1)
+    temps_agile = [quadratic_weather_model(d) for d in subset_days]
+    plt.plot(subset_days, temps_agile, label=f"Sprint {i}")
+plt.title("Agile Model Weather Curve")
+plt.xlabel("Days")
+plt.ylabel("Temperature (°C)")
 plt.grid(True)
+plt.legend()
 plt.savefig("graph_agile.png")
 plt.close()
 
-print("✅ Graphs saved: graph_waterfall.png, graph_iterative.png, graph_agile.png")
+print("✅ Graphs generated: graph_quadratic.png, graph_iterative.png, graph_agile.png")
+
